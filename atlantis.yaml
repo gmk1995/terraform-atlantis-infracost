@@ -1,0 +1,18 @@
+version: 3
+
+projects:
+  - name: default
+    dir: .
+    workflow: infracost
+    autoplan:
+      when_modified: ["**/*.tf"]
+      enabled: true
+
+workflows:
+  infracost:
+    plan:
+      steps:
+        - init
+        - plan
+        - run: infracost breakdown --path=. --format=json --out-file=infracost.json
+        - run: infracost diff --path=. --compare-to=infracost.json
