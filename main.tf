@@ -8,7 +8,7 @@ terraform {
   backend "s3" {
     bucket  = "terraform-atlantis-infracost-workflow-03"
     key     = "atlantis/terraform.tfstate"
-    region  = "us-east-1"
+    region  = "ap-southeast-2"
     profile = "default"
   }
 }
