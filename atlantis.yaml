@@ -28,7 +28,7 @@ workflows:
             infracost comment github --repo $BASE_REPO_OWNER/$BASE_REPO_NAME \
                                      --pull-request $PULL_NUM \
                                      --path /tmp/infracost.json \
-                                     --github-token $ATLANTIS_GH_TOKEN \
+                                     --github-token $GITHUB_TOKEN \
                                      --behavior update
     apply:
       steps:
