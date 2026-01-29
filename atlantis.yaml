@@ -1,23 +1,34 @@
 version: 3
+projects:
+  - name: default
+    dir: .
+    workspace: default
+    terraform_version: v1.6.6
+    workflow: infracost
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - "**/*.tf"
+        - "**/*.tfvars"
 
 workflows:
-  default:
+  infracost:
     plan:
       steps:
         - init
-        - plan
-        - run:
-            command: |
-              infracost breakdown \
-                --path . \
-                --format table
-        - run:
-            command: |
-              infracost comment github \
-                --path . \
-                --repo $BASE_REPO_OWNER/$BASE_REPO_NAME \
-                --pull-request $PULL_NUM
+        - plan:
+            extra_args: ["-out", "atlantis_plan.tfplan"]
+        - run: |
+            infracost breakdown --path atlantis_plan.tfplan \
+                                --format json \
+                                --out-file /tmp/infracost.json
+        - run: |
+            infracost comment github --repo $BASE_REPO_OWNER/$BASE_REPO_NAME \
+                                     --pull-request $PULL_NUM \
+                                     --path /tmp/infracost.json \
+                                     --behavior update
     apply:
       steps:
         - apply
-
