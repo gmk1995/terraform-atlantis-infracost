@@ -1,0 +1,39 @@
+version: 3
+
+projects:
+  - name: default
+    dir: .
+    workspace: default
+    terraform_version: v1.14.4
+    workflow: infracost
+    autoplan:
+      enabled: true
+      when_modified:
+        - "*.tf"
+        - "*.tfvars"
+        - "**/*.tf"
+        - "**/*.tfvars"
+
+workflows:
+  infracost:
+    plan:
+      steps:
+        - init
+        - plan
+        - run:
+            name: infracost-breakdown
+            command: |
+              infracost breakdown \
+                --path . \
+                --format table
+        - run:
+            name: infracost-comment
+            command: |
+              infracost comment github \
+                --path . \
+                --repo $BASE_REPO_OWNER/$BASE_REPO_NAME \
+                --pull-request $PULL_NUM
+    apply:
+      steps:
+        - apply
+
