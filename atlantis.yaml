@@ -1,21 +1,5 @@
-version: 3
-
-projects:
-  - name: default
-    dir: .
-    workspace: default
-    terraform_version: v1.6.6
-    workflow: infracost
-    autoplan:
-      enabled: true
-      when_modified:
-        - "*.tf"
-        - "*.tfvars"
-        - "**/*.tf"
-        - "**/*.tfvars"
-
 workflows:
-  infracost:
+  default:
     plan:
       steps:
         - init
