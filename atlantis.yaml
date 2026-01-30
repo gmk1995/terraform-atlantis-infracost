@@ -29,7 +29,9 @@ workflows:
                                      --pull-request $PULL_NUM \
                                      --path /tmp/infracost.json \
                                      --github-token $GITHUB_TOKEN \
-                                     --behavior update
+                                     --behavior update \
+                                     --no-checks
+
     apply:
       steps:
         - apply
