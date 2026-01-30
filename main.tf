@@ -1,7 +1,7 @@
 ############ PROVIDER BLOCK ############
 provider "aws" {
-  region     = "us-east-1"
-  profile    = "default"
+  region  = "us-east-1"
+  profile = "default"
 }
 ############ SAVING TF STATE FILE #########
 terraform {
@@ -34,6 +34,9 @@ resource "aws_instance" "web" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "terraform-atlantis"
+    Name        = "terraform-atlantis"
+    Environment = "dev"
+    Owner       = "platform-team"
+    CostCenter  = "cc-001"
   }
 }
