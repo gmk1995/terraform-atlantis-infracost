@@ -51,6 +51,6 @@ workflows:
             fi
         - run: /tmp/oiq match --pricesheet /tmp/prices.csv $SHOWFILE | /tmp/oiq price --format=atlantis-comment
 
-repos:
-  - id: /.*/
-    workflow: default
+          #repos:
+          #  - id: /.*/
+          # workflow: default
