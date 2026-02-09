@@ -1,13 +1,13 @@
-FROM ghcr.io/runatlantis/atlantis:latest
+FROM ghcr.io/runatlantis/atlantis:dev-debian-52cde50
 
 USER root
 
 # Install dependencies
-RUN apk add --no-cache \
-    aws-cli \
+RUN apt-get update && apt-get install -y \
     curl \
-    bash
-
+    jq \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 # Ensure correct ownership
 RUN chown -R atlantis:atlantis /home/atlantis \
