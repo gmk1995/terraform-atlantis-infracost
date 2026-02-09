@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     jq \
     ca-certificates \
+    awscli \
     && rm -rf /var/lib/apt/lists/*
 
 # Ensure correct ownership
