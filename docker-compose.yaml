@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: infracost-postgres
+    environment:
+      POSTGRES_DB: infracost
+      POSTGRES_USER: infracost
+      POSTGRES_PASSWORD: infracost
+    volumes:
+      - infracost-pg-data:/var/lib/postgresql/data
+
+  infracost-api:
+    image: infracost/cloud-pricing-api:0.3.19
+    container_name: infracost-api
+    depends_on:
+      - postgres
+    ports:
+      - "4000:4000"
+    environment:
+      INFRACOST_API_KEY: ${INFRACOST_API_KEY}
+      ENABLED_CLOUD_PROVIDERS: aws
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: infracost
+      POSTGRES_USER: infracost
+      POSTGRES_PASSWORD: infracost
+    restart: unless-stopped
+
+volumes:
+  infracost-pg-data:
+
